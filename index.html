@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pramathesh Malshe — Reliability Infrastructure</title>
+<meta name="description" content="Pramathesh Malshe: 12+ years building engineering infrastructure. flowgate chaos lab, LLM eval harness, agentic triage.">
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #2d333b;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #d29922;
+    --accent-dim: #9e7c0a;
+    --green: #3fb950;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6; font-size: 16px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px 80px; }
+  header { margin-bottom: 48px; }
+  .kicker {
+    font-family: var(--mono); font-size: 13px; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .tagline { color: var(--muted); font-size: 17px; margin-bottom: 20px; }
+  .links { display: flex; gap: 16px; flex-wrap: wrap; }
+  .links a {
+    color: var(--text); text-decoration: none; font-size: 14px;
+    font-family: var(--mono); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 6px; background: var(--panel);
+  }
+  .links a:hover { border-color: var(--accent); color: var(--accent); }
+  section { margin-bottom: 48px; }
+  h2 {
+    font-size: 13px; font-family: var(--mono); text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px;
+    border-bottom: 1px solid var(--border); padding-bottom: 8px;
+  }
+  .about p { color: #c9d1d9; margin-bottom: 12px; }
+  /* ---- career timeline ---- */
+  .role { margin-bottom: 24px; }
+  .role .when {
+    font-family: var(--mono); font-size: 12.5px; color: var(--accent); margin-bottom: 4px;
+  }
+  .role h3 { font-size: 17px; margin-bottom: 2px; }
+  .role h3 .org { color: var(--muted); font-weight: 400; }
+  .role ul { margin: 8px 0 0 18px; color: #c9d1d9; font-size: 15px; }
+  .role ul li { margin-bottom: 4px; }
+  .role.earlier p { color: var(--muted); font-size: 14px; }
+  .edu { margin-top: 20px; color: var(--muted); font-size: 14px; }
+  .edu strong { color: #c9d1d9; font-weight: 600; }
+  /* ---- skills ---- */
+  .skill-group { margin-bottom: 16px; }
+  .skill-group h3 {
+    font-family: var(--mono); font-size: 13px; color: var(--text);
+    margin-bottom: 8px; font-weight: 600;
+  }
+  .skill-group .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-group .chips span {
+    font-size: 14px; color: #c9d1d9; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px;
+  }
+  .skill-group .chips span.primary { border-color: var(--accent-dim); color: var(--accent); }
+  /* ---- projects ---- */
+  .project {
+    border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+    padding: 20px; margin-bottom: 16px;
+  }
+  .project h3 { font-size: 18px; margin-bottom: 6px; }
+  .project h3 a { color: var(--text); text-decoration: none; }
+  .project h3 a:hover { color: var(--accent); }
+  .project .stack {
+    font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 8px;
+  }
+  .project p { color: #c9d1d9; font-size: 15px; }
+  .project.featured { border-color: var(--accent-dim); }
+  .project.featured h3::after {
+    content: "featured"; font-family: var(--mono); font-size: 11px; color: var(--accent);
+    border: 1px solid var(--accent-dim); border-radius: 4px; padding: 2px 6px;
+    margin-left: 10px; vertical-align: middle; font-weight: 400;
+  }
+  /* ---- build log ---- */
+  .entry { margin-bottom: 28px; }
+  .entry .date {
+    font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 6px;
+  }
+  .entry h3 { font-size: 18px; margin-bottom: 8px; }
+  .entry p { color: #c9d1d9; font-size: 15px; margin-bottom: 8px; }
+  .entry .decision {
+    border-left: 3px solid var(--accent-dim); padding: 8px 12px; margin-top: 8px;
+    background: var(--panel); border-radius: 0 6px 6px 0; font-size: 14px; color: #c9d1d9;
+  }
+  .entry .decision strong { color: var(--accent); font-weight: 600; }
+  .entry .tags { margin-top: 8px; }
+  .entry .tags span {
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; margin-right: 6px;
+  }
+  footer {
+    margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 13px; font-family: var(--mono);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  footer a { color: var(--muted); }
+  @media (max-width: 560px) { h1 { font-size: 28px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Reliability infrastructure</div>
+    <h1>Pramathesh Malshe</h1>
+    <p class="tagline">12+ years building the systems other engineers build on — CI/CD, automation platforms, release verification, and reliability tooling that proves systems hold up.</p>
+    <div class="links">
+      <a href="https://github.com/prime5">github.com/prime5</a>
+      <a href="https://www.linkedin.com/in/pramatheshmalshe">linkedin</a>
+      <a href="mailto:pramathesh.malshe@gmail.com">email</a>
+    </div>
+  </header>
+
+  <section class="about">
+    <h2>About</h2>
+    <p>Senior/Staff engineer across enterprise SaaS — Birst (distributed analytics), Workday (CI/CD and release gating for a 100+ engineer org), Palo Alto Networks (Principal, Cloud Identity Engine: automation platform and multi-region release verification).</p>
+    <p>Python is my primary language; I also ship Go, Java, and TypeScript. Current obsession: chaos engineering — deliberately breaking systems in controlled ways to learn exactly how they behave.</p>
+    <p style="color:var(--muted);font-size:14px;">Bay Area, CA · open to Senior/Staff SDE / SDET roles</p>
+  </section>
+
+  <section>
+    <h2>Career</h2>
+
+    <div class="role">
+      <div class="when">Jul 2025 – Aug 2026</div>
+      <h3>Principal Engineer (SDET) <span class="org">· Palo Alto Networks, Cloud Identity Engine</span></h3>
+      <ul>
+        <li>Built automation for the Cloud Identity Engine platform — identity infrastructure serving the security portfolio.</li>
+        <li>Release verification across regions: proving a release is safe to promote, not just that it built.</li>
+        <li>Worked the kind of capacity incidents I now model in flowgate — a directory-sync system stalling when it ran out of server capacity.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="when">Jun 2018 – Feb 2025</div>
+      <h3>SDE / SDET <span class="org">· Workday</span></h3>
+      <ul>
+        <li>Build master for a 100+ engineer org — owned the CI/CD pipeline and release gating everyone shipped through.</li>
+        <li>Release verification at enterprise scale: the gate between "merged" and "safe to ship."</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="when">Earlier</div>
+      <h3>Senior SDE / SQA <span class="org">· Birst (Infor)</span></h3>
+      <ul>
+        <li>Automation frameworks for a distributed analytics platform — testing systems where the failure modes are the interesting part.</li>
+      </ul>
+    </div>
+
+    <div class="role earlier">
+      <p>Also: EMC Greenplum (MPP databases) · Patni Computer Systems · BD Biosciences</p>
+    </div>
+
+    <div class="edu">
+      <strong>Education:</strong> MS, Software Engineering — San José State University · BE, Information Technology — University of Mumbai
+    </div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+
+    <div class="skill-group">
+      <h3>Languages</h3>
+      <div class="chips">
+        <span class="primary">Python</span>
+        <span class="primary">Go</span>
+        <span>Java</span>
+        <span>TypeScript</span>
+        <span>SQL</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Reliability &amp; testing</h3>
+      <div class="chips">
+        <span class="primary">Fault injection / chaos engineering</span>
+        <span class="primary">k6 load testing</span>
+        <span>Prometheus</span>
+        <span>Test automation architecture</span>
+        <span>Robot Framework</span>
+        <span>Playwright</span>
+        <span>Selenium</span>
+        <span>Appium</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Platform</h3>
+      <div class="chips">
+        <span class="primary">CI/CD</span>
+        <span class="primary">Release gating &amp; verification</span>
+        <span>Distributed systems</span>
+        <span>Kubernetes (manifests, HPA)</span>
+        <span>MCP / agentic tooling</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+
+    <div class="project featured">
+      <h3><a href="https://github.com/prime5/flowgate">flowgate</a></h3>
+      <div class="stack">Go · k6 · MCP · Prometheus</div>
+      <p>Reliability gateway turned chaos lab. Token-bucket rate limiting, circuit breaker, and load shedding — then a fault-injection primitives library, an experiment framework with steady-state hypotheses and mandatory rollback, and an MCP server that lets AI agents run experiments inside server-enforced guardrails. All packages pass under Go's race detector. Modeled on real incidents: a directory-sync capacity stall and MPP stragglers.</p>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/prime5">llm-eval-harness</a></h3>
+      <div class="stack">Python · LLM eval</div>
+      <p>LLM evaluation harness with judge scoring and drift detection that gates CI — the build fails when metrics drift past expected values.</p>
+    </div>
+
+    <div class="project">
+      <h3><a href="https://github.com/prime5">aiops-triage-agent</a></h3>
+      <div class="stack">Python · agents</div>
+      <p>Agentic triage: reads CI failure logs and reasons toward a root cause, with a human review gate before anything it produces is trusted.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Build log</h2>
+    <div id="log"></div>
+  </section>
+
+  <footer>
+    <span>© 2026 Pramathesh Malshe</span>
+    <span><a href="https://github.com/prime5">github</a> · <a href="https://www.linkedin.com/in/pramatheshmalshe">linkedin</a></span>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   BUILD LOG — to add an entry, copy the template below and
+   paste it at the TOP of the ENTRIES array (newest first).
+   Template:
+   {
+     date: "Oct 5, 2026",
+     title: "What shipped",
+     body: "Two or three sentences on what it does.",
+     decision: "The design decision behind it, in one line.",
+     tags: ["go", "chaos"]
+   },
+   ============================================================ */
+const ENTRIES = [
+  {
+    date: "Oct 4, 2026",
+    title: "The chaos lab goes public",
+    body: "Merged resilience-experiments into main. The repo's front door now tells the whole story: gateway first, chaos lab second. Also gated the lab endpoints behind FLOWGATE_LAB=1, so the public deploy doesn't expose chaos controls by default.",
+    decision: "Evidence, not secrecy: /metrics is what the README's SLOs are measured from, and those numbers are only attributable if nothing outside the process can move them.",
+    tags: ["go", "merge", "readme"]
+  },
+  {
+    date: "Oct 3, 2026",
+    title: "Agents run the experiments now",
+    body: "Built an MCP server over the experiment framework — run_experiment, get_verdict, and list_experiments as agent-callable tools. The server enforces the guardrails: blast-radius cap 0.5, 15-second duration caps, unknown faults refused with reasons.",
+    decision: "Refuse, don't clamp: silently shrinking a requested blast radius would let the agent believe it tested 100% of traffic when it tested 50%.",
+    tags: ["go", "mcp", "agents"]
+  },
+  {
+    date: "Oct 2, 2026",
+    title: "Fault-injection primitives library",
+    body: "Built internal/fault: six reusable fault primitives (latency, error, timeout, CPU-burn, blackhole, capacity) with per-primitive blast-radius sampling. A forgotten sampler is a no-op — fail safe by default. Every primitive respects context cancellation; the nearer deadline always wins. Shipped with a narrated demo where every number is produced by the run.",
+    decision: "A fault that ignores cancellation is a bug, not a fault: the caller's timeout budget still has to mean something.",
+    tags: ["go", "chaos", "testing"]
+  }
+];
+
+const log = document.getElementById("log");
+log.innerHTML = ENTRIES.map(e => `
+  <article class="entry">
+    <div class="date">${e.date}</div>
+    <h3>${e.title}</h3>
+    <p>${e.body}</p>
+    <div class="decision"><strong>Design decision:</strong> ${e.decision}</div>
+    <div class="tags">${e.tags.map(t => `<span>${t}</span>`).join("")}</div>
+  </article>
+`).join("");
+</script>
+</body>
+</html>
