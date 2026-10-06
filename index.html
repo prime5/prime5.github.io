@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pramathesh Malshe — Reliability Infrastructure</title>
-<meta name="description" content="Pramathesh Malshe: 12+ years building engineering infrastructure. flowgate chaos lab, LLM eval harness, agentic triage.">
+<meta name="description" content="Pramathesh Malshe: 12+ years building engineering infrastructure — CI/CD, release verification, identity platforms. flowgate chaos lab, LLM eval harness, agent identity and permissions layer.">
+<meta name="theme-color" content="#0d1117">
+<meta property="og:title" content="Pramathesh Malshe — Reliability Infrastructure">
+<meta property="og:description" content="12+ years building the systems other engineers build on — CI/CD, release verification, identity platforms, and reliability tooling that proves systems hold up.">
+<meta property="og:type" content="website">
 <style>
   :root {
     --bg: #0d1117;
@@ -37,7 +41,8 @@
     font-family: var(--mono); border: 1px solid var(--border);
     padding: 6px 12px; border-radius: 6px; background: var(--panel);
   }
-  .links a:hover { border-color: var(--accent); color: var(--accent); }
+  .links a:hover, .links a:focus-visible { border-color: var(--accent); color: var(--accent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   section { margin-bottom: 48px; }
   h2 {
     font-size: 13px; font-family: var(--mono); text-transform: uppercase;
@@ -45,6 +50,7 @@
     border-bottom: 1px solid var(--border); padding-bottom: 8px;
   }
   .about p { color: #c9d1d9; margin-bottom: 12px; }
+  .about p.small { color: var(--muted); font-size: 14px; }
   /* ---- career timeline ---- */
   .role { margin-bottom: 24px; }
   .role .when {
@@ -80,7 +86,15 @@
   .project .stack {
     font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 8px;
   }
-  .project p { color: #c9d1d9; font-size: 15px; }
+  .project p { color: #c9d1d9; font-size: 15px; margin-bottom: 8px; }
+  .project p:last-of-type { margin-bottom: 0; }
+  .project .status { color: var(--muted); font-size: 13.5px; }
+  .project .proj-links { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .project .proj-links a {
+    font-family: var(--mono); font-size: 12px; color: var(--muted); text-decoration: none;
+    border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px;
+  }
+  .project .proj-links a:hover, .project .proj-links a:focus-visible { color: var(--accent); border-color: var(--accent-dim); }
   .project.featured { border-color: var(--accent-dim); }
   .project.featured h3::after {
     content: "featured"; font-family: var(--mono); font-size: 11px; color: var(--accent);
@@ -119,7 +133,7 @@
   <header>
     <div class="kicker">Reliability infrastructure</div>
     <h1>Pramathesh Malshe</h1>
-    <p class="tagline">12+ years building the systems other engineers build on — CI/CD, automation platforms, release verification, and reliability tooling that proves systems hold up.</p>
+    <p class="tagline">12+ years building the systems other engineers build on — CI/CD, automation platforms, release verification, identity platforms, and reliability tooling that proves systems hold up.</p>
     <div class="links">
       <a href="https://github.com/prime5">github.com/prime5</a>
       <a href="https://www.linkedin.com/in/pramatheshmalshe">linkedin</a>
@@ -129,9 +143,9 @@
 
   <section class="about">
     <h2>About</h2>
-    <p>Senior/Staff engineer across enterprise SaaS — Birst (distributed analytics), Workday (CI/CD and release gating for a 100+ engineer org), Palo Alto Networks (Principal, Cloud Identity Engine: automation platform and multi-region release verification).</p>
-    <p>Python is my primary language; I also ship Go, Java, and TypeScript. Current obsession: chaos engineering — deliberately breaking systems in controlled ways to learn exactly how they behave.</p>
-    <p style="color:var(--muted);font-size:14px;">Bay Area, CA · open to Senior/Staff SDE / SDET roles</p>
+    <p>Senior/Staff engineer across enterprise SaaS — Birst (distributed analytics), Workday (CI/CD and release gating for a 100+ engineer org), Palo Alto Networks (Principal, Cloud Identity Engine: automation platform, authentication-flow validation and multi-region release verification).</p>
+    <p>Python is my primary language; I also ship Go, Java, and TypeScript. I use AI in daily engineering work — Claude Code, plus a Claude workflow I wrote that reads automation failure logs and reasons toward a root cause. Current obsession: chaos engineering — deliberately breaking systems in controlled ways to learn exactly how they behave.</p>
+    <p class="small">Bay Area, CA · open to Senior/Staff SDE / SDET roles</p>
   </section>
 
   <section>
@@ -139,28 +153,30 @@
 
     <div class="role">
       <div class="when">Jul 2025 – Aug 2026</div>
-      <h3>Principal Engineer (SDET) <span class="org">· Palo Alto Networks, Cloud Identity Engine</span></h3>
+      <h3>Principal SDET <span class="org">· Palo Alto Networks, Cloud Identity Engine</span></h3>
       <ul>
-        <li>Built automation for the Cloud Identity Engine platform — identity infrastructure serving the security portfolio.</li>
+        <li>Built automation for the Cloud Identity Engine platform — a multi-tenant identity service. Verified directory integration across Entra ID, Active Directory, Okta and Google Workspace: SCIM provisioning, OIDC and SAML federation, tenant-scoped service accounts.</li>
         <li>Release verification across regions: proving a release is safe to promote, not just that it built.</li>
+        <li>Wrote a Claude workflow (skills, memory files, guardrails) that reads automation failure logs and returns a reasoned root-cause hypothesis. Internal tooling for team use.</li>
         <li>Worked the kind of capacity incidents I now model in flowgate — a directory-sync system stalling when it ran out of server capacity.</li>
       </ul>
     </div>
 
     <div class="role">
       <div class="when">Jun 2018 – Feb 2025</div>
-      <h3>SDE / SDET <span class="org">· Workday</span></h3>
+      <h3>Software Engineer / SDET <span class="org">· Workday, XO Platform</span></h3>
       <ul>
         <li>Build master for a 100+ engineer org — owned the CI/CD pipeline and release gating everyone shipped through.</li>
         <li>Release verification at enterprise scale: the gate between "merged" and "safe to ship."</li>
+        <li>Built and shipped a production Flask REST API framework adopted across teams; validated row-, column- and cell-level access enforcement against user identity.</li>
       </ul>
     </div>
 
     <div class="role">
       <div class="when">Earlier</div>
-      <h3>Senior SDE / SQA <span class="org">· Birst (Infor)</span></h3>
+      <h3>Senior Software Engineer <span class="org">· Birst (Infor)</span></h3>
       <ul>
-        <li>Automation frameworks for a distributed analytics platform — testing systems where the failure modes are the interesting part.</li>
+        <li>Architected Java and Python automation frameworks for a distributed analytics platform — testing systems where the failure modes are the interesting part.</li>
       </ul>
     </div>
 
@@ -194,6 +210,7 @@
         <span class="primary">k6 load testing</span>
         <span>Prometheus</span>
         <span>Test automation architecture</span>
+        <span>pytest</span>
         <span>Robot Framework</span>
         <span>Playwright</span>
         <span>Selenium</span>
@@ -207,8 +224,35 @@
         <span class="primary">CI/CD</span>
         <span class="primary">Release gating &amp; verification</span>
         <span>Distributed systems</span>
-        <span>Kubernetes (manifests, HPA)</span>
+        <span>Kubernetes manifests (authored, not operated)</span>
+        <span>GitHub Actions</span>
+        <span>Jenkins</span>
+        <span>GitLab CI</span>
+        <span>Argo CD</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>Identity &amp; access</h3>
+      <div class="chips">
+        <span class="primary">OAuth 2.0</span>
+        <span class="primary">OIDC</span>
+        <span>SAML</span>
+        <span>SCIM</span>
+        <span>JWT</span>
+        <span>Okta</span>
+        <span>Microsoft Entra ID</span>
+        <span>Active Directory</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <h3>AI-assisted engineering</h3>
+      <div class="chips">
+        <span class="primary">Claude / Claude Code</span>
         <span>MCP / agentic tooling</span>
+        <span>LLM-as-judge evaluation</span>
+        <span>Prompt-injection testing</span>
       </div>
     </div>
   </section>
@@ -220,24 +264,42 @@
       <h3><a href="https://github.com/prime5/flowgate">flowgate</a></h3>
       <div class="stack">Go · k6 · MCP · Prometheus</div>
       <p>Reliability gateway turned chaos lab. Token-bucket rate limiting, circuit breaker, and load shedding — then a fault-injection primitives library, an experiment framework with steady-state hypotheses and mandatory rollback, and an MCP server that lets AI agents run experiments inside server-enforced guardrails. All packages pass under Go's race detector. Modeled on real incidents: a directory-sync capacity stall and MPP stragglers.</p>
+      <p>A k6 run against the live deployment (303,761 requests, ~2,025 req/s, p95 102 ms) found what a green unit suite could not: per-client limiting keyed on the connection address, which doesn't identify the client behind a reverse proxy. Written up as a postmortem; the fix is committed.</p>
+      <div class="proj-links">
+        <a href="https://github.com/prime5/flowgate">repo</a>
+        <a href="https://github.com/prime5/flowgate/blob/main/POSTMORTEM.md">postmortem</a>
+        <a href="https://github.com/prime5/flowgate/blob/main/DECISIONS.md">design decisions</a>
+        <!-- After the Fly.io redeploy, add the live URL here, e.g.:
+        <a href="https://flowgate-pramathesh.fly.dev/healthz">live</a> -->
+      </div>
     </div>
 
     <div class="project">
-      <h3><a href="https://github.com/prime5">llm-eval-harness</a></h3>
-      <div class="stack">Python · LLM eval</div>
-      <p>LLM evaluation harness with judge scoring and drift detection that gates CI — the build fails when metrics drift past expected values.</p>
+      <h3><a href="https://github.com/prime5/llm-eval-harness">llm-eval-harness</a></h3>
+      <div class="stack">Python · pytest · OpenAI · Anthropic · ChromaDB · Streamlit · GitHub Actions</div>
+      <p>LLM evaluation harness with judge-based scoring (relevance, faithfulness, context sufficiency), adversarial and prompt-injection suites, tool-call and multi-agent validation, and a RAG extension scored on retrieval precision and adversarial retrieval. Drift detection gates CI — the build fails when metrics drift past expected values.</p>
+      <p>Multi-run variance surfaced a prompt-injection result in gpt-4o-mini that was unstable (0% across five runs) — invisible to a single pass. 41 test cases across 9 suites, 59 unit tests.</p>
+      <p class="status">Built independently. Runs locally and in CI; not deployed as a service.</p>
+      <div class="proj-links">
+        <a href="https://github.com/prime5/llm-eval-harness">repo</a>
+      </div>
     </div>
 
     <div class="project">
-      <h3><a href="https://github.com/prime5">aiops-triage-agent</a></h3>
-      <div class="stack">Python · agents</div>
-      <p>Agentic triage: reads CI failure logs and reasons toward a root cause, with a human review gate before anything it produces is trusted.</p>
+      <h3><a href="https://github.com/prime5/aiops-triage-agent">aiops-triage-agent</a></h3>
+      <div class="stack">Python · FastAPI · JWT · React / TypeScript · Playwright</div>
+      <p>Identity and permissions layer for an incident-triage agent: agents get scoped roles defined in YAML (read-only, notifier, remediator, admin), short-lived JWTs, policy enforcement in middleware, and an audit trail of what each identity did. 13 pytest cases plus Playwright end-to-end specs (41 documented test cases).</p>
+      <p class="status">Reference implementation. Known limits: action-level scoping only, no token revocation, in-memory audit log.</p>
+      <div class="proj-links">
+        <a href="https://github.com/prime5/aiops-triage-agent">repo</a>
+      </div>
     </div>
   </section>
 
   <section>
     <h2>Build log</h2>
     <div id="log"></div>
+    <noscript><p style="color:var(--muted);font-size:14px;">The build log needs JavaScript. The same history is in the commit log at <a href="https://github.com/prime5/flowgate/commits/main" style="color:var(--accent)">github.com/prime5/flowgate</a>.</p></noscript>
   </section>
 
   <footer>
@@ -264,7 +326,7 @@ const ENTRIES = [
   {
     date: "Oct 4, 2026",
     title: "The chaos lab goes public",
-    body: "Merged resilience-experiments into main. The repo's front door now tells the whole story: gateway first, chaos lab second. Also gated the lab endpoints behind FLOWGATE_LAB=1, so the public deploy doesn't expose chaos controls by default.",
+    body: "Merged resilience-experiments into main. The repo's front door now tells the whole story: gateway first, chaos lab second. Also gated the lab endpoints behind FLOWGATE_LAB=1, so a public deploy doesn't expose chaos controls by default.",
     decision: "Evidence, not secrecy: /metrics is what the README's SLOs are measured from, and those numbers are only attributable if nothing outside the process can move them.",
     tags: ["go", "merge", "readme"]
   },
