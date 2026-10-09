@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pramathesh Malshe — Reliability Infrastructure</title>
-<meta name="description" content="Pramathesh Malshe: 12+ years building engineering infrastructure — CI/CD, release verification, identity platforms. flowgate chaos lab, LLM eval harness, agent identity and permissions layer.">
+<meta name="description" content="Pramathesh Malshe: 12+ years building engineering infrastructure — CI/CD, release verification, identity platforms. flowgate reliability gateway and chaos lab (OpenTelemetry tracing, Redis-shared rate limiter, Slack front end), LLM eval harness, agent identity and permissions layer.">
 <meta name="theme-color" content="#0d1117">
 <meta property="og:title" content="Pramathesh Malshe — Reliability Infrastructure">
 <meta property="og:description" content="12+ years building the systems other engineers build on — CI/CD, release verification, identity platforms, and reliability tooling that proves systems hold up.">
@@ -265,9 +265,11 @@
 
     <div class="project featured">
       <h3><a href="https://github.com/prime5/flowgate">flowgate</a></h3>
-      <div class="stack">Go · k6 · MCP · Prometheus</div>
+      <div class="stack">Go · OpenTelemetry · Redis · MCP · Slack API · Prometheus · k6</div>
       <p>Reliability gateway turned chaos lab. Token-bucket rate limiting, circuit breaker, and load shedding — then a fault-injection primitives library, an experiment framework with steady-state hypotheses and mandatory rollback, and an MCP server that lets AI agents run experiments inside server-enforced guardrails. All packages pass under Go's race detector. Modeled on real incidents: a directory-sync capacity stall and MPP stragglers.</p>
-      <p>A k6 run against the live deployment (303,761 requests, ~2,025 req/s, p95 102 ms) found what a green unit suite could not: per-client limiting keyed on the connection address, which doesn't identify the client behind a reverse proxy. Written up as a postmortem; the fix is committed.</p>
+      <p>Since extended with OpenTelemetry tracing (a span per request stage, with trace context carried from an agent through MCP tool calls), a Redis-backed rate limiter that replicas share (one atomic Lua script, tested against a real Redis), and a Slack slash command that verifies Slack's request signature and runs experiments through a multi-turn runner.</p>
+      <p>A k6 run against the live deployment (303,761 requests, ~2,025 req/s, p95 102 ms) found what a green unit suite could not: per-client limiting keyed on the connection address, which doesn't identify the client behind a reverse proxy. Written up as a postmortem; fixed, with regression tests, and the client-IP header is now trusted only when configured.</p>
+      <p class="status">Deployed on Fly.io as a single process. The Redis-shared limiter, Slack front end and tracing run locally (docker compose, a tunnel, Jaeger) and in tests; a k6 before/after for the shared limiter is still to do.</p>
       <div class="proj-links">
         <a href="https://github.com/prime5/flowgate">repo</a>
         <a href="https://github.com/prime5/flowgate/blob/main/POSTMORTEM.md">postmortem</a>
@@ -325,6 +327,34 @@
    },
    ============================================================ */
 const ENTRIES = [
+  {
+    date: "Oct 8, 2026",
+    title: "A Slack front end that checks who is asking",
+    body: "Added a /flowgate slash command with status, verdict, and run, served by the same multi-turn runner the CLI uses. It verifies Slack's HMAC-SHA256 request signature and a five-minute replay window before reading anything, answers inside Slack's three seconds, and posts a long experiment's verdict back when it finishes. Run needs the lab switched on and an allowlisted user.",
+    decision: "A valid signature proves the sender is Slack, not that the person should inject faults: authentication and authorization are separate checks, and an empty allowlist allows nobody.",
+    tags: ["go", "slack", "security"]
+  },
+  {
+    date: "Oct 8, 2026",
+    title: "Hardening the last three phases",
+    body: "Ran the Redis Lua script against a real Redis in tests: two limiter instances hit concurrently admit exactly the configured burst. Counted every fail-open in a metric. Made Fly-Client-IP trusted only when configured, with a test that a rotating header can't evade the limit. And fixed a lost-update race in the new multi-turn runner, where concurrent turns overwrote each other's history (62 of 80 lost) with a per-conversation lock and a regression test that fails without it.",
+    decision: "A header is only as trustworthy as the proxy that sets it: unconfigured, the key is the socket peer, so the bypass is closed by default.",
+    tags: ["go", "testing", "concurrency"]
+  },
+  {
+    date: "Oct 8, 2026",
+    title: "One rate limit across replicas",
+    body: "Rate limiting was per process, so three replicas behind a load balancer meant three times the limit. Moved the token bucket into Redis as a single atomic Lua script (refill and take in one round trip, on Redis's own clock) with a hand-rolled RESP client, plus a compose setup with three replicas behind nginx. If Redis is unreachable the limiter fails open. A k6 before/after is next.",
+    decision: "Fail open, but never silently: a limiter outage must not become a gateway outage, so every fail-open is counted and alertable.",
+    tags: ["go", "redis", "ratelimit"]
+  },
+  {
+    date: "Oct 8, 2026",
+    title: "Tracing: where a request stopped",
+    body: "Prometheus says how much; it can't say where. Added OpenTelemetry: one span per request with a child for each stage that ran (shed, rate limit, breaker, backend), so a rejected request has fewer children and the trace shows where it stopped. Trace context also rides MCP tool calls, so a Python agent's request and the server's work share one trace. Stage spans inspected in Jaeger.",
+    decision: "Trace the stages, not just the request: the shape of the trace is the answer to \"where did it stop?\".",
+    tags: ["go", "opentelemetry", "observability"]
+  },
   {
     date: "Oct 4, 2026",
     title: "The chaos lab goes public",
